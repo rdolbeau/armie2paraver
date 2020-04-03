@@ -9,7 +9,7 @@ Using ArmIE version 20.0, you need to generate the trace with the `libmeminstrac
 ```
 armie -msve-vector-bits=256 -i libmeminstrace_emulated.so -- ./myprogram
 ```
-As of version 20.0, ArmIE doesn't include the memory information for the SVE load/store, hopefully this will be improved in an upcoming verion.
+As of version 20.0, ArmIE doesn't include the memory information for the SVE load/store, hopefully this will be improved in an upcoming version.
 
 Then you can convert the trace with e.g.:
 
