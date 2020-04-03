@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
   allinsts = calloc(BUFINC, sizeof(arminstruction));
   instcount = 0;
 
-  fprintf(stdout, "#Paraver (30/03/2020 at 09:50):19859_ns:1(1):1:1:(1:1)\n");
+  fprintf(outputfile, "#Paraver (30/03/2020 at 09:50):19859_ns:1(1):1:1:(1:1)\n");
 
   yyin = inputfile;
   do {
