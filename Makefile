@@ -7,8 +7,8 @@ LLVM=/opt/local/llvm-10.0.0
 CC=gcc
 CFLAGS=-O1 -g
 CXX=g++
-CXXFLAGS=-O1 -g $(shell /opt/local/llvm-9.0.0/bin/llvm-config  --cxxflags)
-CXXLIBS=$(shell /opt/local/llvm-9.0.0/bin/llvm-config  --ldflags --system-libs --libs)
+CXXFLAGS=-O1 -g $(shell ${LLVM}/bin/llvm-config  --cxxflags)
+CXXLIBS=$(shell ${LLVM}/bin/llvm-config  --ldflags --system-libs --libs)
 LEX=flex
 YACC=bison -d #--report-file=bison.log --report=all
 

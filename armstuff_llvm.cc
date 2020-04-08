@@ -71,7 +71,7 @@ static void init() {
   reginfo = target->createMCRegInfo(triplestr);
   //fprintf(stderr, "%s: %d: %p (%u)\n", __PRETTY_FUNCTION__, __LINE__, reginfo, reginfo->getNumRegs() );
 
-#if LLVM_VERSION_MAJOR > 10
+#if LLVM_VERSION_MAJOR > 9
   llvm::MCTargetOptions mco;
   llvm::MCAsmInfo *asminfo = target->createMCAsmInfo(*reginfo, triplestr, mco);
 #else
@@ -132,7 +132,7 @@ void printinst_paraver(FILE* out, unsigned long long n, const arminstruction* th
 
   //fprintf(stderr, "0x%016llx -> 0x%02x 0x%02x 0x%02x 0x%02x\n", n, data[0], data[1], data[2], data[3]);
 
-#if LLVM_VERSION_MAJOR > 10
+#if LLVM_VERSION_MAJOR > 9
   llvm::MCDisassembler::DecodeStatus ds = disassembler->getInstruction(*llvminst, isize, dataref, 0x0, myerr);
 #else
   llvm::MCDisassembler::DecodeStatus ds = disassembler->getInstruction(*llvminst, isize, dataref, 0x0, myerr, myerr);
@@ -168,7 +168,7 @@ void printinst_paraver(FILE* out, unsigned long long n, const arminstruction* th
  
 #ifdef NATIVE_OPCODE
   buf.clear();
-#if LLVM_VERSION_MAJOR > 10
+#if LLVM_VERSION_MAJOR > 9
   instprinter->printInst(llvminst, 0, "", *subtargetinfo, bufstream);
 #else
   instprinter->printInst(llvminst, bufstream, "", *subtargetinfo);
