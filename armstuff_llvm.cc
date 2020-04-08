@@ -71,7 +71,12 @@ static void init() {
   reginfo = target->createMCRegInfo(triplestr);
   //fprintf(stderr, "%s: %d: %p (%u)\n", __PRETTY_FUNCTION__, __LINE__, reginfo, reginfo->getNumRegs() );
 
-  llvm::MCAsmInfo *asminfo = target->createMCAsmInfo(*reginfo, triplestr);//new llvm::AArch64MCAsmInfoELF (triple);
+#if LLVM_VERSION_MAJOR > 10
+  llvm::MCTargetOptions mco;
+  llvm::MCAsmInfo *asminfo = target->createMCAsmInfo(*reginfo, triplestr, mco);
+#else
+  llvm::MCAsmInfo *asminfo = target->createMCAsmInfo(*reginfo, triplestr);
+#endif
   //fprintf(stderr, "%s: %d: %p\n", __PRETTY_FUNCTION__, __LINE__, asminfo);
 
   /* llvm::MCInstrInfo * */
@@ -127,7 +132,11 @@ void printinst_paraver(FILE* out, unsigned long long n, const arminstruction* th
 
   //fprintf(stderr, "0x%016llx -> 0x%02x 0x%02x 0x%02x 0x%02x\n", n, data[0], data[1], data[2], data[3]);
 
+#if LLVM_VERSION_MAJOR > 10
+  llvm::MCDisassembler::DecodeStatus ds = disassembler->getInstruction(*llvminst, isize, dataref, 0x0, myerr);
+#else
   llvm::MCDisassembler::DecodeStatus ds = disassembler->getInstruction(*llvminst, isize, dataref, 0x0, myerr, myerr);
+#endif
 
   if (ds != 0x3) {
     fprintf(stderr, "%s: %d: DS is %d for 0x%08x\n", __PRETTY_FUNCTION__, __LINE__, ds, n & 0xFFFFFFFF);
@@ -159,7 +168,11 @@ void printinst_paraver(FILE* out, unsigned long long n, const arminstruction* th
  
 #ifdef NATIVE_OPCODE
   buf.clear();
+#if LLVM_VERSION_MAJOR > 10
+  instprinter->printInst(llvminst, 0, "", *subtargetinfo, bufstream);
+#else
   instprinter->printInst(llvminst, bufstream, "", *subtargetinfo);
+#endif
   bufstream.flush(); // required before using buf
   char temp[128];
   sscanf(buf.c_str(), "%s", temp);
